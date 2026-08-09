@@ -1,6 +1,6 @@
 ### CC-232: Estructuras de Datos en Java
 
-Repositorio de prácticas para el curso **CC-232: Algoritmos y Estructuras de Datos**.
+Repositorio  para el curso **CC-232: Algoritmos y Estructuras de Datos**.
 
 El material utiliza Java sin Maven, Gradle ni dependencias externas. Cada archivo es autocontenido, compila con `javac` y concentra la sesión en la representación, los invariantes, las operaciones esenciales, las trazas y la complejidad.
 
