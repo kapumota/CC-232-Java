@@ -526,10 +526,10 @@ Este principio será recurrente en el estudio de estructuras de datos.
 - Un arreglo dinámico combina una interfaz de operaciones con una representación interna basada en un arreglo de longitud fija y un tamaño lógico separado.
 - La capacidad disponible evita crear un arreglo nuevo en cada inserción.
 - El invariante permite razonar sobre estados válidos.
-- El acceso por índice aprovecha la representación basada en arreglos y tiene costo O(1).
-- El crecimiento requiere copiar elementos y una llamada a `resize()` cuesta O(n).
+- El acceso por índice aprovecha la representación basada en arreglos y tiene costo `O(1)`.
+- El crecimiento requiere copiar elementos y una llamada a `resize()` cuesta `O(n)`.
 - La política de duplicación hace que las expansiones ocurran con poca frecuencia.
-- Al analizar una secuencia larga de inserciones, el costo total de las expansiones es lineal y `add` al final tiene costo O(1) amortizado.
+- Al analizar una secuencia larga de inserciones, el costo total de las expansiones es lineal y `add` al final tiene costo `O(1)` amortizado.
 
 Estas ideas pueden resumirse así:
 
