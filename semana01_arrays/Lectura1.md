@@ -97,7 +97,7 @@ Esta diferencia conduce a dos conceptos fundamentales.
 
 #### Tamaño
 
-El tamaño indica cuántos elementos pertenecen actualmente a la estructura.
+El **tamaño** indica cuántos elementos pertenecen actualmente a la estructura.
 
 ```text
 tamaño = n
@@ -105,7 +105,7 @@ tamaño = n
 
 #### Capacidad
 
-La capacidad indica cuántas posiciones posee el arreglo de respaldo.
+La **capacidad** indica cuántas posiciones posee el arreglo de respaldo.
 
 ```text
 capacidad = a.length
@@ -136,9 +136,9 @@ Además, los elementos que pertenecen a la estructura ocupan:
 a[0..n-1]
 ```
 
-Estas propiedades forman un invariante de representación.
+Estas propiedades forman un **invariante de representación**.
 
-Un invariante expresa una condición que debe conservarse mientras la estructura permanezca en un estado válido.
+Un **invariante** expresa una condición que debe conservarse mientras la estructura permanezca en un estado válido.
 
 Por ejemplo:
 
