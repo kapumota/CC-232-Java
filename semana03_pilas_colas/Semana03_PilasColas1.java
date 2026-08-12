@@ -1,5 +1,5 @@
 /*
- * CC-232 - Semana 3, viernes: ArrayQueue circular.
+ * CC-232 - Semana 3, Lunes: ArrayQueue circular.
  * Adaptación didáctica de Open Data Structures, Pat Morin.
  * Invariante: el elemento lógico k está en a[(j+k) % a.length].
  */
