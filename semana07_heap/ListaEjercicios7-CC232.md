@@ -751,7 +751,7 @@ Se propone:
 ```java
 int remove() {
     if (n == 0) {
-        throw new NoSuchElementException("el montículo está vacío");
+        throw new NoSuchElementException("el heap está vacío");
     }
 
     int min = a[0];
