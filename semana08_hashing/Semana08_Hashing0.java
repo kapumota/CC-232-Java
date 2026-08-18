@@ -20,7 +20,7 @@ public class Semana08_Hashing0 {
     public static void main(String[] args) {
         try {
             int d = 3;
-            for (String key : new String[] {"AVL", "montículo", "tabla hash", "BTree"}) {
+            for (String key : new String[] {"AVL", "heap", "tabla hash", "BTree"}) {
                 int index = hash(key.hashCode(), d);
                 System.out.println(key + " -> " + index + " (rango esperado: 0..7)");
             }
