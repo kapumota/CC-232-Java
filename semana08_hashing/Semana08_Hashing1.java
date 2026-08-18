@@ -2,7 +2,7 @@
  * CC-232 - Semana 8, viernes: tabla hash con encadenamiento separado.
  * Adaptación didáctica de ChainedHashTable de Pat Morin.
  *
- * Invariante: cada elemento se encuentra en la cubeta indicada por hash(x)
+ * Invariante: cada elemento se encuentra en el bucket indicada por hash(x)
  * y size coincide con el número total de elementos almacenados.
  */
 import java.util.ArrayList;
@@ -38,7 +38,7 @@ public class Semana08_Hashing1 {
             return true;
         }
 
-        // TODO(alumno): buscar value en su cubeta mediante Iterator, eliminarlo,
+        // TODO(alumno): buscar value en su bucket mediante Iterator, eliminarlo,
         // decrementar size y retornar true. Retornar false si no está presente.
         boolean remove(T value) {
             throw new UnsupportedOperationException("TODO: implementar el método remove");
@@ -55,10 +55,10 @@ public class Semana08_Hashing1 {
         ChainedHashSet<String> set = new ChainedHashSet<>(5);
         set.add("arreglo");
         set.add("lista");
-        set.add("montículo");
+        set.add("heap");
         set.add("grafo");
         set.printBuckets();
-        System.out.println("Resultado de contains para montículo: " + set.contains("montículo") + " (esperado: true)");
+        System.out.println("Resultado de contains para el heap: " + set.contains("heap") + " (esperado: true)");
         try {
             System.out.println("Resultado de remove para lista: " + set.remove("lista") + " (esperado: true)");
             System.out.println("Tamaño: " + set.size() + " (esperado: 3)");
