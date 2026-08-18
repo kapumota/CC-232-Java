@@ -1,7 +1,7 @@
 /*
  * CC-232 - Semana 9, viernes: rehashing: ChainedHashTable y redimensionamiento.
  * Adaptación didáctica de Open Data Structures, Pat Morin.
- * Invariante: t.length==2^d y n es la suma de tamaños de las cubetas.
+ * Invariante: t.length==2^d y n es la suma de tamaños de los buckets.
  */
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -16,7 +16,7 @@ public class Semana09_Rehashing1 {
         private static final int W = 32;
 
         ChainedHashTable() {
-            d = 3; // ocho cubetas para que el main no dependa todavía de resize
+            d = 3; // ocho buckets para que el main no dependa todavía de resize
             t = allocateTable(1 << d);
         }
 
@@ -48,13 +48,13 @@ public class Semana09_Rehashing1 {
             return true;
         }
 
-        // TODO(alumno): recorrer con Iterator la cubeta de x, eliminar la
+        // TODO(alumno): recorrer con Iterator el bucket de x, eliminar la
         // coincidencia, decrementar n y retornar el objeto almacenado.
         T remove(T x) {
             throw new UnsupportedOperationException("TODO: implementar el método remove");
         }
 
-        // TODO(alumno): elegir d con 2^d > n, crear nuevas cubetas y reinsertar
+        // TODO(alumno): elegir d con 2^d > n, crear nuevos buckets y reinsertar
         // todos los elementos sin perder ni duplicar el contador n.
         private void resize() {
             throw new UnsupportedOperationException("TODO: implementar el método resize");
@@ -71,10 +71,10 @@ public class Semana09_Rehashing1 {
         ChainedHashTable<String> table = new ChainedHashTable<>();
         table.add("arreglo");
         table.add("lista");
-        table.add("montículo");
+        table.add("heap");
         table.add("tabla hash");
         table.printBuckets();
-        System.out.println("Resultado de find para montículo: " + table.find("montículo") + " (esperado: montículo)");
+        System.out.println("Resultado de find parael heap: " + table.find("heap") + " (esperado: heap)");
         try {
             System.out.println("Resultado de remove para lista: " + table.remove("lista") + " (esperado: lista)");
             System.out.println("Tamaño: " + table.size() + " (esperado: 3)");
