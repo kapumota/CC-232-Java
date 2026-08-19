@@ -25,8 +25,7 @@ En la Semana 3 estudiamos Stack, Queue y Deque.
 La pregunta central pasó a ser:
 
 ```text
-¿qué operaciones permite el ADT
-sobre la secuencia?
+¿qué operaciones permite el ADT sobre la secuencia?
 ```
 
 En las Semanas 4 y 5 estudiamos árboles binarios de búsqueda.
@@ -44,9 +43,7 @@ El BST seguía siendo correcto, pero ahora añadimos información de altura y un
 La Semana 7 cambia nuevamente la pregunta.
 
 ```text
-¿qué ocurre si no necesitamos
-buscar cualquier clave eficientemente,
-sino mantener disponible el elemento mínimo?
+¿qué ocurre si no necesitamos buscar cualquier clave eficientemente, sino mantener disponible el elemento mínimo?
 ```
 
 Esta pregunta conduce al ADT `Priority Queue` y a una de sus implementaciones clásicas, `BinaryHeap`.
@@ -1559,9 +1556,7 @@ O(log n)
 Podríamos intentar multiplicar:
 
 ```text
-aproximadamente n/2 nodos internos
-por
-O(log n)
+aproximadamente n/2 nodos internos por O(log n)
 ```
 
 y obtener:
@@ -1599,13 +1594,7 @@ y así sucesivamente.
 El trabajo total tiene la forma aproximada:
 
 ```text
-n/4 * 1
-+
-n/8 * 2
-+
-n/16 * 3
-+
-...
+n/4 * 1 + n/8 * 2 + n/16 * 3 + ...
 ```
 
 Factorizando `n`:
@@ -2165,11 +2154,7 @@ para todas las operaciones
 La Semana 7 cierra el bloque inicial de árboles y prioridades con una idea general:
 
 ```text
-representación
-+
-invariante
-+
-operaciones de mantenimiento
+representación + invariante + operaciones de mantenimiento
 =
 costos específicos
 ```
@@ -2191,9 +2176,7 @@ ni:
 La nueva pregunta será más cercana a:
 
 ```text
-¿podemos localizar una clave
-sin recorrer una secuencia
-y sin seguir la altura de un árbol?
+¿podemos localizar una clave sin recorrer una secuencia y sin seguir la altura de un árbol?
 ```
 
 Esto conduce a estructuras basadas en **hashing**.
@@ -2222,7 +2205,7 @@ La forma completa permite calcular relaciones jerárquicas con:
 ```text
 left(i)   = 2*i + 1
 right(i)  = 2*i + 2
-parent(i) = (i - 1) / 2
+parent(i) = (i - 1)/2
 ```
 
 y garantiza:
