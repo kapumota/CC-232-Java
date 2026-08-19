@@ -7,11 +7,7 @@ Durante las siete semanas anteriores hemos cambiado de representación, de invar
 En la Semana 1 utilizamos un arreglo dinámico.
 
 ```text
-arreglo
-+
-tamaño lógico
-+
-capacidad
+arreglo + tamaño lógico + capacidad
 ```
 
 La representación permitió acceso directo por índice y obligó a distinguir entre estado lógico, almacenamiento físico, crecimiento y costo amortizado.
@@ -29,8 +25,7 @@ En la Semana 3 estudiamos `Stack`, `Queue` y `Deque`.
 La pregunta central pasó a ser:
 
 ```text
-¿qué operaciones permite el ADT
-sobre una secuencia?
+¿qué operaciones permite el ADT sobre una secuencia?
 ```
 
 Las restricciones de acceso permitieron elegir representaciones especialmente apropiadas para LIFO, FIFO y operaciones por ambos extremos.
@@ -52,25 +47,19 @@ En la Semana 7 estudiamos `Priority Queue` y `BinaryHeap`.
 La pregunta dejó de ser buscar una clave arbitraria y pasó a ser:
 
 ```text
-¿cómo mantener disponible
-el elemento mínimo?
+¿cómo mantener disponible el elemento mínimo?
 ```
 
 El `BinaryHeap` resolvió ese problema mediante dos decisiones:
 
 ```text
-forma completa
-+
-invariante min-heap
+forma completa + invariante min-heap
 ```
 
 La Semana 8 cambia nuevamente la pregunta.
 
 ```text
-¿qué ocurre si no necesitamos
-mantener las claves ordenadas
-ni conservar el mínimo,
-sino localizar una clave exacta
+¿qué ocurre si no necesitamos mantener las claves ordenadas ni conservar el mínimo, sino localizar una clave exacta
 lo más directamente posible?
 ```
 
@@ -119,7 +108,8 @@ complejidad
     cuánto trabajo exige cada operación
 ```
 
-Al finalizar la lectura deberías poder explicar por qué una tabla hash puede localizar una clave sin mantener orden global, por qué las colisiones son normales, cómo el encadenamiento separado permite resolverlas y por qué el costo depende de la longitud del bucket seleccionado.
+Al finalizar la lectura deberías poder explicar por qué una tabla hash puede localizar una clave sin mantener orden global, 
+por qué las colisiones son normales, cómo el encadenamiento separado permite resolverlas y por qué el costo depende de la longitud del bucket seleccionado.
 
 ### 1. El nuevo problema: localizar una clave exacta
 
@@ -216,11 +206,9 @@ Esto es una solución excelente cuando necesitamos orden y búsqueda.
 Pero introduce una pregunta nueva:
 
 ```text
-si solamente necesito saber
-si una clave exacta está presente,
+si solamente necesito saber si una clave exacta está presente,
 
-¿es obligatorio mantener
-un orden global entre todas las claves?
+¿es obligatorio mantener un orden global entre todas las claves?
 ```
 
 Hashing responde que no.
@@ -484,8 +472,7 @@ Su objetivo es reducir la región que debemos examinar.
 En lugar de preguntar:
 
 ```text
-¿en cuál de todos los n elementos
-se encuentra x?
+¿en cuál de todos los n elementos se encuentra x?
 ```
 
 preguntamos primero:
@@ -555,8 +542,7 @@ buckets
 Esta representación recupera una idea de la Semana 1:
 
 ```text
-el arreglo permite acceder
-directamente a una posición por índice
+el arreglo permite acceder directamente a una posición por índice
 ```
 
 Pero ahora la posición contiene una colección de claves.
@@ -652,11 +638,9 @@ int hashCode()
 Para esta semana interesa una propiedad fundamental:
 
 ```text
-si dos objetos son iguales
-según el criterio de igualdad,
+si dos objetos son iguales según el criterio de igualdad,
 
-deben producir
-el mismo hashCode
+deben producir el mismo hashCode
 ```
 
 Sin embargo:
@@ -773,9 +757,7 @@ Si tenemos muchas claves posibles y solamente `m` buckets, diferentes claves pue
 La pregunta real es:
 
 ```text
-¿cómo representar correctamente
-varias claves que comparten
-el mismo índice?
+¿cómo representar correctamente varias claves que comparten el mismo índice?
 ```
 
 ### 20. El problema si cada bucket admitiera una sola clave
@@ -800,10 +782,7 @@ La estrategia que estudiaremos es **encadenamiento separado**.
 La idea es:
 
 ```text
-cada bucket
-mantiene una colección
-de todas las claves
-que producen ese índice
+cada bucket mantiene una colección de todas las claves que producen ese índice
 ```
 
 Por ejemplo:
@@ -907,8 +886,7 @@ size
 El primer invariante central de la semana es:
 
 ```text
-cada elemento x almacenado
-se encuentra en:
+cada elemento x almacenado se encuentra en:
 
 buckets[hash(x)]
 ```
@@ -962,10 +940,8 @@ La representación está dañada aunque el valor siga visible en otro lugar.
 El segundo invariante central es:
 
 ```text
-size
-=
-cantidad total de elementos
-almacenados en todos los buckets
+size =
+cantidad total de elementos almacenados en todos los buckets
 ```
 
 Para:
@@ -997,9 +973,7 @@ sería coherente.
 Una operación correcta debe preservar simultáneamente:
 
 ```text
-invariante de ubicación
-+
-invariante de tamaño
+invariante de ubicación + invariante de tamaño
 ```
 
 Si insertamos 22 en el bucket correcto pero olvidamos `size++`, la ubicación es correcta y el tamaño es incorrecto.
@@ -1122,8 +1096,7 @@ eso no significa:
 Solo significa:
 
 ```text
-si 22 está almacenado,
-debe encontrarse en buckets[2]
+si 22 está almacenado, debe encontrarse en buckets[2]
 ```
 
 Por tanto:
@@ -1535,8 +1508,7 @@ es un desplazamiento lógico hacia la derecha.
 Para esta lectura interesa comprender su papel estructural:
 
 ```text
-conservar d bits
-para producir un índice
+conservar d bits para producir un índice
 ```
 
 El foco sigue siendo:
@@ -1661,8 +1633,7 @@ boolean remove(T value) {
 Lo importante para la estructura es:
 
 ```text
-recorrer únicamente el bucket correcto
-eliminar solamente la clave encontrada
+recorrer únicamente el bucket correcto eliminar solamente la clave encontrada
 decrementar size exactamente una vez
 no modificar nada si la clave no existe
 ```
@@ -1966,9 +1937,7 @@ Pero una tabla hash y una función hash criptográfica persiguen objetivos difer
 En esta semana buscamos:
 
 ```text
-convertir una clave
-en un índice útil
-para localizarla eficientemente
+convertir una clave en un índice útil para localizarla eficientemente
 ```
 
 No estudiamos propiedades criptográficas.
@@ -2114,9 +2083,7 @@ La salida parece correcta, pero el invariante de tamaño quedó roto.
 Este principio ya apareció en listas, BST, AVL y heap:
 
 ```text
-salida correcta
-no implica
-representación correcta
+salida correcta no implica representación correcta
 ```
 
 ### 70. Una tabla puede tener `size` correcto y ubicación incorrecta
@@ -2415,8 +2382,7 @@ Si mantenemos siempre la misma cantidad de buckets, incluso una buena distribuci
 Aparece una nueva pregunta:
 
 ```text
-¿qué ocurre cuando size crece
-pero buckets.length permanece fijo?
+¿qué ocurre cuando size crece pero buckets.length permanece fijo?
 ```
 
 Si cada bucket acumula más elementos, entonces:
@@ -2432,25 +2398,19 @@ y las operaciones pueden requerir más trabajo.
 La Semana 9 responderá preguntas como:
 
 ```text
-¿cómo relacionar
-cantidad de elementos
-con cantidad de buckets?
+¿cómo relacionar cantidad de elementos con cantidad de buckets?
 
 ¿cuándo debe crecer la tabla?
 
-¿por qué cambiar la cantidad de buckets
-obliga a recalcular ubicaciones?
+¿por qué cambiar la cantidad de buckets obliga a recalcular ubicaciones?
 
-¿cómo redistribuir los elementos
-sin romper el invariante?
+¿cómo redistribuir los elementos sin romper el invariante?
 ```
 
 Esto conducirá a:
 
 ```text
-factor de carga
-+
-rehashing
+factor de carga + rehashing
 ```
 
 Pero todavía no necesitamos resolverlo.
@@ -2491,8 +2451,7 @@ mismo bucket
 El encadenamiento separado responde:
 
 ```text
-mantener todas esas claves
-en una colección local
+mantener todas esas claves en una colección local
 ```
 
 La correctitud exige:
@@ -2581,16 +2540,14 @@ La Semana 8 puede condensarse en una transformación conceptual:
 ```text
 antes
 
-buscar una clave
-=
+buscar una clave =
 recorrer
 o
 seguir comparaciones de orden
 
 ahora
 
-buscar una clave
-=
+buscar una clave =
 calcular una región candidata
 +
 buscar localmente
