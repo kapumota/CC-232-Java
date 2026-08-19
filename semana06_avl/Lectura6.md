@@ -29,8 +29,7 @@ donde `h` representa la altura del árbol.
 Sin embargo, quedó una pregunta abierta.
 
 ```text
-¿qué ocurre si el BST es correcto
-pero su altura crece demasiado?
+¿qué ocurre si el BST es correcto pero su altura crece demasiado?
 ```
 
 La Semana 6 responde esa pregunta.
@@ -82,9 +81,7 @@ altura de una hoja = 1
 También utilizaremos:
 
 ```text
-balanceFactor(u)
-=
-height(u.left) - height(u.right)
+balanceFactor(u) = height(u.left) - height(u.right)
 ```
 
 Esta convención debe conservarse durante toda la semana.
@@ -274,15 +271,13 @@ Conviene separar dos preguntas.
 Primera:
 
 ```text
-¿el árbol representa correctamente
-un conjunto ordenado?
+¿el árbol representa correctamente un conjunto ordenado?
 ```
 
 Segunda:
 
 ```text
-¿la forma del árbol permite
-mantener caminos suficientemente cortos?
+¿la forma del árbol permite mantener caminos suficientemente cortos?
 ```
 
 Un BST degenerado puede responder correctamente la primera pregunta y mal la segunda.
@@ -310,11 +305,9 @@ Un árbol AVL sigue satisfaciendo el invariante de búsqueda binaria.
 Para cada nodo `u`:
 
 ```text
-toda clave de u.left
-es menor que u.x
+toda clave de u.left es menor que u.x
 
-toda clave de u.right
-es mayor que u.x
+toda clave de u.right es mayor que u.x
 ```
 
 La búsqueda sigue utilizando comparaciones.
@@ -478,9 +471,7 @@ Pero el estado AVL es incorrecto.
 Esta observación es importante:
 
 ```text
-salida visible correcta
-no implica
-representación interna correcta
+salida visible correcta no implica representación interna correcta
 ```
 
 ### 11. Función height(Node u)
@@ -582,11 +573,7 @@ Una vez que almacenamos alturas, podemos comparar los dos lados de un nodo.
 Definimos:
 
 ```text
-balanceFactor(u)
-=
-height(u.left)
--
-height(u.right)
+balanceFactor(u) = height(u.left) - height(u.right)
 ```
 
 En Java:
@@ -695,11 +682,8 @@ height(30) = 3
 Para la raíz:
 
 ```text
-balanceFactor(30)
-=
-2 - 1
-=
-1
+balanceFactor(30) = 2 - 1
+= 1
 ```
 
 El árbol no es perfectamente simétrico.
@@ -1254,16 +1238,13 @@ Para comprender el rebalanceo debemos observar dos decisiones.
 Primera:
 
 ```text
-¿el nodo desbalanceado
-está cargado a izquierda o a derecha?
+¿el nodo desbalanceado está cargado a izquierda o a derecha?
 ```
 
 Segunda:
 
 ```text
-¿dentro del hijo relevante
-la rama alta continúa en la misma dirección
-o cambia de dirección?
+¿dentro del hijo relevante la rama alta continúa en la misma dirección o cambia de dirección?
 ```
 
 De esas dos preguntas surgen:
@@ -1492,11 +1473,7 @@ Resultado:
 Por tanto:
 
 ```text
-LR
-=
-rotación izquierda sobre el hijo
-+
-rotación derecha sobre el nodo
+LR = rotación izquierda sobre el hijo + rotación derecha sobre el nodo
 ```
 
 ### 47. Caso RL
@@ -1568,11 +1545,7 @@ Resultado:
 Por tanto:
 
 ```text
-RL
-=
-rotación derecha sobre el hijo
-+
-rotación izquierda sobre el nodo
+RL = rotación derecha sobre el hijo + rotación izquierda sobre el nodo
 ```
 
 ### 49. Rotaciones dobles son composiciones
@@ -1619,9 +1592,7 @@ La pregunta esencial sigue siendo:
 ```text
 ¿qué lado está demasiado alto?
 
-¿la rama interna continúa
-en la misma dirección
-o cambia?
+¿la rama interna continúa en la misma dirección o cambia?
 ```
 
 ### 51. Decidir con balanceFactor
@@ -1716,8 +1687,7 @@ u
 y debe retornar:
 
 ```text
-la raíz correcta de ese subárbol
-después de intentar insertar x
+la raíz correcta de ese subárbol después de intentar insertar x
 ```
 
 La referencia retornada puede ser `u` o puede ser otra referencia si ocurrió una rotación.
@@ -1811,9 +1781,7 @@ insertar recursivamente en u.left
 Necesitamos conceptualmente:
 
 ```text
-u.left
-=
-nueva raíz del subárbol izquierdo
+u.left = nueva raíz del subárbol izquierdo
 ```
 
 La razón es que una rotación interna puede cambiar la raíz local.
@@ -1881,9 +1849,7 @@ Es una decisión de representación.
 Aquí:
 
 ```text
-la pila de llamadas
-+
-el valor retornado por cada llamada
+la pila de llamadas + el valor retornado por cada llamada
 ```
 
 proporcionan el camino para reconstruir los enlaces al regresar.
@@ -2178,11 +2144,8 @@ height(50) = 4
 En 20:
 
 ```text
-balanceFactor(20)
-=
-1 - 0
-=
-1
+balanceFactor(20) = 1 - 0
+= 1
 ```
 
 Sigue balanceado.
@@ -2190,11 +2153,8 @@ Sigue balanceado.
 En 30:
 
 ```text
-balanceFactor(30)
-=
-2 - 1
-=
-1
+balanceFactor(30) = 2 - 1
+= 1
 ```
 
 Sigue balanceado.
@@ -2202,11 +2162,8 @@ Sigue balanceado.
 En 50:
 
 ```text
-balanceFactor(50)
-=
-3 - 1
-=
-2
+balanceFactor(50) = 3 - 1
+= 2
 ```
 
 50 queda desbalanceado.
@@ -2364,9 +2321,7 @@ h = O(log n)
 Por tanto:
 
 ```text
-búsqueda AVL
-=
-O(log n)
+búsqueda AVL = O(log n)
 ```
 
 ### 78. Por qué la altura AVL es logarítmica
@@ -2378,8 +2333,7 @@ Tampoco exige que todos los nodos tengan dos hijos.
 La restricción local es solamente:
 
 ```text
-las alturas de dos subárboles hermanos
-no pueden diferir en más de uno
+las alturas de dos subárboles hermanos no pueden diferir en más de uno
 ```
 
 Esa restricción evita que un lado pueda crecer arbitrariamente mientras el otro permanece muy pequeño.
@@ -2439,9 +2393,7 @@ h = O(log n)
 tenemos:
 
 ```text
-inserción AVL
-=
-O(log n)
+inserción AVL = O(log n)
 ```
 
 ### 81. Una o dos rotaciones siguen siendo trabajo constante
@@ -2455,9 +2407,7 @@ Pero una y dos son cantidades constantes.
 Por tanto:
 
 ```text
-reparación local
-=
-O(1)
+reparación local = O(1)
 ```
 
 Eso no cambia la cota dominada por el recorrido de altura `h`.
@@ -2574,8 +2524,7 @@ Semana 6 utiliza recursión y retornos.
 La necesidad conceptual sigue siendo la misma:
 
 ```text
-después de modificar un subárbol
-alguien debe reconectarlo con su contexto
+después de modificar un subárbol alguien debe reconectarlo con su contexto
 ```
 
 Solo cambia el mecanismo.
@@ -3002,8 +2951,7 @@ Primero:
 Después:
 
 ```text
-¿el hijo relevante continúa hacia el mismo lado
-o cambia de dirección?
+¿el hijo relevante continúa hacia el mismo lado o cambia de dirección?
 ```
 
 Si podemos contestar estas preguntas, el código puede reconstruirse desde los invariantes y los diagramas.
@@ -3033,11 +2981,7 @@ No estudiaremos esas alternativas en esta lectura.
 La idea que sí debemos conservar es:
 
 ```text
-representación
-+
-invariante adicional
-=
-nuevas garantías
+representación + invariante adicional = nuevas garantías
 ```
 
 La siguiente semana cambiará nuevamente la representación y el invariante.
@@ -3100,11 +3044,7 @@ y se mantiene localmente mediante `updateHeight(Node u)`.
 El factor de balance se define como:
 
 ```text
-balanceFactor(u)
-=
-height(u.left)
--
-height(u.right)
+balanceFactor(u) = height(u.left) - height(u.right)
 ```
 
 El invariante AVL exige:
@@ -3120,15 +3060,13 @@ La nueva hoja puede aumentar las alturas de sus ancestros.
 Por eso la inserción recursiva trabaja:
 
 ```text
-de arriba hacia abajo
-para localizar e insertar
+de arriba hacia abajo para localizar e insertar
 ```
 
 y luego:
 
 ```text
-de abajo hacia arriba
-para actualizar y rebalancear
+de abajo hacia arriba para actualizar y rebalancear
 ```
 
 Las rotaciones modifican localmente la forma.
@@ -3217,10 +3155,8 @@ La lección general no es solamente cómo implementar AVL.
 La idea más importante es:
 
 ```text
-una representación puede añadir
-información derivada e invariantes
-para restringir las formas válidas
-y obtener mejores garantías de costo
+una representación puede añadir información derivada e invariantes
+para restringir las formas válidas y obtener mejores garantías de costo
 ```
 
 Esa relación entre representación, invariantes, operaciones y complejidad continuará apareciendo en las siguientes estructuras del curso.
