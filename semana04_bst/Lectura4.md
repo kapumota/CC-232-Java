@@ -25,8 +25,7 @@ En la Semana 3 estudiamos Stack, Queue y Deque.
 La pregunta dejó de ser únicamente cómo representar una secuencia y pasó a ser:
 
 ```text
-¿qué operaciones permitimos
-sobre esa secuencia?
+¿qué operaciones permitimos sobre esa secuencia?
 ```
 
 Una pila restringe el acceso mediante LIFO. Una cola restringe el acceso mediante FIFO. Un deque permite operaciones por ambos extremos.
@@ -34,8 +33,7 @@ Una pila restringe el acceso mediante LIFO. Una cola restringe el acceso mediant
 La Semana 4 introduce un cambio estructural más profundo.
 
 ```text
-¿qué ocurre si los elementos
-ya no se organizan en una sola línea?
+¿qué ocurre si los elementos ya no se organizan en una sola línea?
 ```
 
 Pasaremos de una organización lineal a una organización jerárquica.
@@ -2271,9 +2269,7 @@ Esta propiedad no surge por casualidad.
 Para cualquier nodo `u`, el invariante garantiza:
 
 ```text
-todas las claves
-del subárbol izquierdo
-son menores que u.x
+todas las claves del subárbol izquierdo son menores que u.x
 ```
 
 El recorrido inorder imprime primero ese subárbol.
@@ -2287,9 +2283,7 @@ u.x
 Luego el invariante garantiza:
 
 ```text
-todas las claves
-del subárbol derecho
-son mayores que u.x
+todas las claves del subárbol derecho son mayores que u.x
 ```
 
 y el recorrido imprime ese subárbol al final.
@@ -2351,9 +2345,7 @@ aunque el campo `parent` sea incorrecto.
 Lección:
 
 ```text
-una prueba observable
-puede verificar parte de un invariante
-sin verificar toda la representación
+una prueba observable puede verificar parte de un invariante sin verificar toda la representación
 ```
 
 Esta idea continúa el enfoque de las semanas anteriores.
