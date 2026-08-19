@@ -7,9 +7,7 @@ En la Semana 4 construimos un árbol binario de búsqueda a partir de una repres
 En la Semana 5 conservamos la misma representación y el mismo invariante. La nueva pregunta es:
 
 ```text
-¿cómo retirar una clave de un BST
-sin perder nodos que deben permanecer
-y sin romper el orden?
+¿cómo retirar una clave de un BST sin perder nodos que deben permanecer y sin romper el orden?
 ```
 
 Eliminar es más delicado que insertar. Cuando insertamos, agregamos una nueva hoja en una referencia `null`. Cuando eliminamos, el nodo que queremos retirar puede estar conectando uno o dos subárboles que deben seguir siendo alcanzables desde `root`.
@@ -79,11 +77,9 @@ La eliminación debe modificar esta representación sin destruir sus propiedades
 Para cada nodo `u`:
 
 ```text
-toda clave del subárbol izquierdo de u
-es menor que u.x
+toda clave del subárbol izquierdo de u es menor que u.x
 
-toda clave del subárbol derecho de u
-es mayor que u.x
+toda clave del subárbol derecho de u es mayor que u.x
 ```
 
 Como no permitimos duplicados:
@@ -1532,8 +1528,7 @@ El caso de dos hijos no es una excepción.
 Después de eliminar debemos comprobar:
 
 ```text
-todos los nodos que debían permanecer
-siguen siendo alcanzables desde root
+todos los nodos que debían permanecer siguen siendo alcanzables desde root
 ```
 
 Un error de reconexión puede conservar un árbol aparentemente ordenado y perder un subárbol entero.
@@ -1582,14 +1577,11 @@ findLast -> O(h)
 Tenemos:
 
 ```text
-findLast
-    O(h)
+findLast    O(h)
 
-splice
-    O(1)
+splice    O(1)
 
-n--
-    O(1)
+n--        O(1)
 ```
 
 Entonces:
@@ -1607,17 +1599,13 @@ Ese recorrido también está acotado por `h`.
 Tenemos:
 
 ```text
-findLast
-    O(h)
+findLast    O(h)
 
-buscar sucesor
-    O(h)
+buscar sucesor    O(h)
 
-copiar clave
-    O(1)
+copiar clave    O(1)
 
-splice
-    O(1)
+splice    O(1)
 ```
 
 Por tanto:
