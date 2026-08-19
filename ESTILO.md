@@ -25,7 +25,7 @@ void addEdge(int source, int destination)
 |---|---|
 | arreglo dinámico | `ArrayStack` |
 | lista enlazada | `SLList`, `DLList` |
-| montículo | `BinaryHeap`, `MinHeap` |
+| heap | `BinaryHeap`, `MinHeap` |
 | tabla hash | `HashTable`, `HashSet` |
 | vértice de origen | `source` |
 | vértice de destino | `destination` |
