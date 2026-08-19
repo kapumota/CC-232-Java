@@ -482,7 +482,7 @@ O(m)
 Al distribuir ese costo entre las `m` operaciones obtenemos:
 
 ```text
-O(m) / m = O(1)
+O(m)/m = O(1)
 ```
 
 Por eso se dice:
