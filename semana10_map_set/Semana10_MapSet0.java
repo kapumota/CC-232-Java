@@ -25,10 +25,10 @@ public class Semana10_MapSet0 {
     }
 
     public static void main(String[] args) {
-        String[] words = {"montículo", "grafo", "tabla hash", "grafo", "montículo", "grafo"};
+        String[] words = {"heap", "grafo", "tabla hash", "grafo", "heap", "grafo"};
         try {
             Map<String, Integer> result = frequencies(words);
-            System.out.println(result + " (esperado: {montículo=2, grafo=3, tabla hash=1})");
+            System.out.println(result + " (esperado: {heap=2, grafo=3, tabla hash=1})");
             System.out.println("más frecuente=" + mostFrequent(result) + " (esperado: grafo)");
         } catch (UnsupportedOperationException e) {
             System.out.println(e.getMessage());
