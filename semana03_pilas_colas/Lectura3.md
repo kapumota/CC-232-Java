@@ -2280,14 +2280,11 @@ La conclusión general es:
 ```text
 el ADT determina qué operaciones necesitamos
 
-la representación determina
-qué información tenemos disponible directamente
+la representación determina qué información tenemos disponible directamente
 
-el invariante determina
-qué estados son válidos
+el invariante determina qué estados son válidos
 
-y el trabajo necesario para preservar
-ese estado determina la complejidad
+y el trabajo necesario para preservar ese estado determina la complejidad
 ```
 
 Estudiar pilas, colas y deques no consiste solamente en aprender nuevos nombres.
