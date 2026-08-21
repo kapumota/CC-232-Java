@@ -8,7 +8,7 @@ public class Semana14_Repaso0 {
             case "arreglo-acceso" -> "O(1)";
             case "lista-búsqueda" -> "O(n)";
             case "avl-búsqueda" -> "O(log n)";
-            case "montículo-mínimo" -> "O(1)";
+            case "heap-mínimo" -> "O(1)";
             case "hash-búsqueda" -> "O(1) esperado";
             case "BFS" -> "O(V + E)";
             default -> "operación no registrada";
@@ -25,7 +25,7 @@ public class Semana14_Repaso0 {
         System.out.println("Costo de BFS: " + expectedCost("BFS"));
         try {
             System.out.println(chooseStructure(false, false, false, true) + " (esperado: grafo)");
-            System.out.println(chooseStructure(false, true, false, false) + " (esperado: montículo)");
+            System.out.println(chooseStructure(false, true, false, false) + " (esperado: heap)");
         } catch (UnsupportedOperationException e) {
             System.out.println(e.getMessage());
         }
