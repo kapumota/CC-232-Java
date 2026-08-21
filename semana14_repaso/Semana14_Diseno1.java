@@ -1,5 +1,5 @@
 /*
- * CC-232 - Semire 14, lunes: diseño integrador.
+ * CC-232 - Semana 14, lunes: diseño integrador.
  * Repaso final de selección de estructuras e invariantes coordinados.
  */
 import java.util.ArrayList;
@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class Semire14_Diseno1 {
+public class Semana14_Diseno1 {
     static class Job {
         final int id;
         final int priority;
