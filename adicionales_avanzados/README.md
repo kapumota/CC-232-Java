@@ -11,7 +11,7 @@ Esta carpeta conserva el material del diseño anterior.
 - Suffix Array,
 - B-Tree.
 
-Estos archivos no forman parte del calendario obligatorio, de los controles, de las prácticas calificadas ni de los exámenes del curso simplificado.
+Estos archivos no forman parte del calendario del curso, de los controles, de las prácticas calificadas ni de los exámenes del curso.
 
 El material se mantiene como referencia para cursos posteriores o para ampliación voluntaria.
 
