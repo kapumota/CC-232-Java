@@ -77,6 +77,48 @@ No necesitamos recorrer `a[0]`, `a[1]`, ..., `a[i-1]` para llegar a `a[i]`. Bajo
 
 Decir que `get(i)` es `O(1)` no significa que tarde exactamente una unidad de tiempo, que consuma una sola instrucción de máquina o que todas las computadoras lo ejecuten a la misma velocidad. Significa que, respecto del parámetro `n`, la cantidad esencial de trabajo no crece con el tamaño de la estructura.
 
+Es importante hacer explícita una consecuencia de este modelo: **`get(i)` no lee todos los elementos del arreglo hasta llegar a `i` ni recorre el arreglo hasta el final**.
+
+Si tenemos:
+
+```text
+a = [10, 20, 30, 40, 50, 60, 70, 80]
+```
+
+y ejecutamos:
+
+```java
+get(6)
+```
+
+la operación accede directamente a `a[6]` y obtiene `70`. Conceptualmente, no realiza un recorrido como:
+
+```text
+a[0] -> a[1] -> a[2] -> ... -> a[6]
+```
+
+Conocemos de antemano la posición y el arreglo permite acceso directo por índice; por eso `get(i)` es `O(1)`.
+
+En cambio, si conocemos el valor que buscamos pero no su posición, una operación como `indexOf(70)` puede necesitar examinar:
+
+```text
+10 -> 20 -> 30 -> 40 -> 50 -> 60 -> 70
+```
+
+En ese caso no conocemos el índice de antemano y debemos buscarlo. Esta diferencia puede resumirse así:
+
+```text
+get(i)
+conozco la posición
+-> acceso directo
+-> O(1)
+
+indexOf(x)
+conozco el valor, pero no la posición
+-> búsqueda secuencial
+-> O(n) en el peor caso
+```
+
 En cambio, supongamos que buscamos un valor sin disponer de información adicional:
 
 ```java
@@ -101,7 +143,7 @@ no existe una quinta posición donde almacenar otro elemento. Sin embargo, desde
 
 Aquí aparece el **arreglo dinámico**. El nombre puede resultar engañoso si se interpreta literalmente. El arreglo individual no cambia dinámicamente de longitud. Lo dinámico es la estructura que administra sucesivos arreglos de respaldo. Cuando la capacidad existente deja de ser suficiente, la implementación crea otro arreglo, conserva los elementos lógicos y cambia la referencia utilizada como almacenamiento.
 
-Esta transición se puede encapsular en **`resize()`**. Conceptualmente, la operación debe obtener un arreglo con capacidad apropiada, copiar los elementos existentes y hacer que `a` pase a referenciar el nuevo almacenamiento. Si antes teníamos cuatro elementos, después de **`resize()`** debemos seguir teniendo cuatro elementos. El tamaño lógico no ha cambiado; ha cambiado la capacidad disponible.
+Esta transición se puede encapsular en **`resize()`**. Conceptualmente, la operación debe obtener un arreglo con capacidad apropiada, copiar los elementos existentes y hacer que `a` pase a referenciar el nuevo almacenamiento. Si antes teníamos cuatro elementos, después de **`resize()`** debemos seguir teniendo cuatro elementos. El tamaño lógico no ha cambiado, ha cambiado la capacidad disponible.
 
 Una posible implementación es:
 
@@ -119,7 +161,7 @@ private void resize() {
 
 Este método merece ser leído como una transformación del estado, no como una receta de tres instrucciones. El nuevo arreglo `b` todavía no forma parte de la representación mientras `a` siga apuntando al arreglo anterior. El ciclo preserva los `n` elementos lógicos. La asignación `a = b` hace efectivo el cambio de almacenamiento. Durante todo el proceso `n` permanece inalterado porque **`resize()`** modifica capacidad, no tamaño.
 
-También podemos analizar su costo. Copiar un elemento requiere trabajo constante bajo nuestro modelo, pero hay que copiar `n` elementos. Por eso **`resize()`** tiene costo `O(n)`. Una vez más, esta conclusión no procede simplemente de observar que existe un `for`; procede de identificar cuántas veces se ejecuta el trabajo relevante en función de `n`.
+También podemos analizar su costo. Copiar un elemento requiere trabajo constante bajo nuestro modelo, pero hay que copiar `n` elementos. Por eso **`resize()`** tiene costo `O(n)`. Una vez más, esta conclusión no procede simplemente de observar que existe un `for`, procede de identificar cuántas veces se ejecuta el trabajo relevante en función de `n`.
 
 #### Comprueba tu comprensión 2
 
@@ -161,7 +203,7 @@ boolean add(Integer x) {
 
 Aquí el **invariante** vuelve a convertirse en una herramienta de razonamiento. Si había capacidad antes de insertar, `n < a.length`; después de incrementar `n` una sola vez seguimos teniendo `n <= a.length`. Si no había capacidad, primero ejecutamos **`resize()`**, que conserva los elementos y crea espacio suficiente, y sólo entonces incorporamos el nuevo valor. No necesitamos confiar exclusivamente en la ejecución para argumentar que el estado resultante sigue siendo válido.
 
-Pero aparece otra pregunta. Si **`resize()`** cuesta `O(n)` y **`add` al final** puede llamar a **`resize()`**, ¿debemos concluir que insertar al final cuesta `O(n)`?
+Pero aparece otra pregunta. Si **`resize()`** cuesta `O(n)` y **`add` al final** puede llamar a **`resize()`**, ¿debemos concluir que insertar al final cuesta `O(n)`?.
 
 Para una llamada individual, sí puede ocurrir. Una inserción que encuentra capacidad disponible realiza trabajo constante; una inserción que provoca una expansión puede copiar todos los elementos existentes. En el peor caso de una operación aislada, el costo puede ser lineal.
 
@@ -197,7 +239,7 @@ Si realizamos `m` inserciones, el total de elementos copiados durante todas las 
 
 Amortizado no significa "promedio" en el sentido probabilístico. No estamos suponiendo que ciertas entradas sean más frecuentes que otras ni calculando una esperanza matemática sobre una distribución. Estamos obteniendo una garantía sobre el costo agregado de una secuencia de operaciones.
 
-###" Comprueba tu comprensión 3
+#### Comprueba tu comprensión 3
 
 Una llamada concreta a `add(x)` puede ejecutar **`resize()`** y costar `O(n)`.
 
@@ -273,8 +315,8 @@ Justifica por qué el costo es `O(n)`.
 
 No se acepta como justificación únicamente "porque tiene un `for`". Tu explicación debe identificar:
 
-- cuál es el parámetro que representa el tamaño del problema;
-- cuántas iteraciones se realizan en función de ese parámetro;
+- cuál es el parámetro que representa el tamaño del problema,
+- cuántas iteraciones se realizan en función de ese parámetro,
 - qué trabajo constante se realiza en cada iteración.
 
 #### 3. Traza de crecimiento
