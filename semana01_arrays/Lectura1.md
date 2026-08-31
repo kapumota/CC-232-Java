@@ -1,239 +1,95 @@
-### Lectura: arreglos dinámicos y costo de las operaciones
+### Lectura 1 - Arreglos dinámicos: representación, correctitud y costo
 
-Esta lectura consolida las ideas trabajadas en la primera sesión de CC232. Su objetivo es relacionar representación, operaciones, correctitud y eficiencia en una estructura basada en arreglos.
+Cuando resolvemos un problema mediante software no trabajamos directamente con objetos del mundo real, sino con representaciones de ellos. Una colección de estudiantes, una ruta entre ciudades, un conjunto de documentos o una secuencia de números debe convertirse en algún estado que un programa pueda almacenar y transformar. En ese sentido, una **estructura de datos** no es simplemente una clase de Java ni una colección de métodos: es una decisión acerca de cómo representar información de manera que ciertas operaciones puedan realizarse correctamente y con un costo razonable.
 
-El propósito no es memorizar una implementación particular, sino comprender por qué una estructura de datos se diseña de cierta manera y cómo esa elección afecta el costo de sus operaciones.
+Esta observación será recurrente durante todo el curso. No existe una representación universalmente mejor. Una elección puede hacer que una operación resulte muy barata y que otra requiera considerablemente más trabajo. El estudio de estructuras de datos consiste precisamente en comprender esa relación entre la información que queremos manipular, la forma en que decidimos representarla, las propiedades que deben conservarse y el costo algorítmico de las operaciones.
 
-### 1. Una estructura de datos es una decisión de representación
+Supongamos que queremos trabajar con una secuencia de enteros. Desde el punto de vista del usuario de la estructura podríamos desear operaciones como `size()`, `get(i)` o `add(x)`. Estas operaciones describen lo que la estructura permite hacer, pero todavía no dicen cómo se almacenarán los elementos. Aquí aparece la distinción entre **ADT frente a implementación**. Un tipo abstracto de dato, o ADT, especifica el comportamiento observable de una estructura: qué operaciones ofrece y, eventualmente, qué condiciones deben satisfacer esas operaciones. La implementación decide cómo hacer posible ese comportamiento.
 
-Resolver un problema computacional exige representar información. La elección de esa representación no es neutral, porque determina qué operaciones son sencillas y cuáles requieren más trabajo.
+Podríamos, por ejemplo, implementar una secuencia mediante nodos enlazados o mediante un arreglo. Si ambas implementaciones ofrecen las mismas operaciones observables, pueden corresponder al mismo ADT aunque internamente sean muy diferentes. Esta separación es importante porque cambiar la implementación puede modificar radicalmente el costo de una operación sin cambiar necesariamente la interfaz que utiliza el cliente.
 
-Una secuencia como:
-
-```text
-4, 7, 1, 9
-```
-
-puede representarse mediante un arreglo. Esa elección permite acceder directamente a una posición, pero introduce una limitación importante, un arreglo de Java tiene una longitud fija después de su creación.
-
-Por ello, estudiar una estructura de datos no consiste solamente en observar dónde se guardan los valores. También implica relacionar cuatro elementos:
-
-```text
-representación
-operaciones
-propiedades de correctitud
-costo
-```
-
-Una representación es adecuada cuando permite implementar las operaciones necesarias, mantener propiedades claras y obtener costos razonables.
-
-La misma tarea puede admitir representaciones diferentes, y esas representaciones pueden producir costos diferentes para las mismas operaciones.
-
-#### Estructura de datos y ADT
-
-Conviene separar el comportamiento que se desea ofrecer de la forma concreta en que se implementa.
-
-Supongamos que queremos una secuencia con operaciones como:
-
-```java
-int size()
-Integer get(int i)
-boolean add(Integer x)
-```
-
-Estas operaciones describen qué puede hacer la estructura. Ese nivel corresponde al tipo abstracto de dato, ADT.
-
-El ADT se interesa por el comportamiento observable, no por los detalles internos de almacenamiento.
-
-La implementación responde otra pregunta, cómo se consigue ese comportamiento.
-
-Una posible representación en Java utiliza:
+Para nuestra primera implementación escogeremos un arreglo y un entero:
 
 ```java
 private Integer[] a = new Integer[1];
 private int n = 0;
 ```
 
-El arreglo `a` proporciona almacenamiento, mientras que `n` indica cuántos elementos pertenecen actualmente a la estructura.
+Estas dos variables constituyen la **representación** del estado. El arreglo `a` proporciona almacenamiento físico; `n` indica cuántos elementos de ese almacenamiento pertenecen actualmente a la secuencia. A partir de una decisión aparentemente tan pequeña aparece inmediatamente una distinción conceptual fundamental.
 
-La distinción puede resumirse así:
+> **Nota de implementación.** Se utiliza `Integer[]` por conveniencia didáctica y para mantener una interfaz orientada a objetos. En Java, `Integer` es un tipo envoltorio de `int` y puede implicar boxing y unboxing. Este detalle no forma parte del análisis de complejidad de esta semana.
 
-```text
-ADT
-qué operaciones ofrece la estructura
-
-implementación
-cómo se representan y ejecutan esas operaciones
-```
-
-Un mismo ADT puede tener implementaciones diferentes. Cambiar la representación puede cambiar también el costo de sus operaciones.
-
-### 2. Estado lógico y almacenamiento físico
-
-Considera el siguiente estado:
+Imaginemos que el arreglo tiene ocho posiciones pero `n` vale tres:
 
 ```text
-índice      0   1   2   3   4   5   6   7
-          +---+---+---+---+---+---+---+---+
-a         | 4 | 7 | 1 |   |   |   |   |   |
-          +---+---+---+---+---+---+---+---+
+índice     0   1   2   3   4   5   6   7
+         +---+---+---+---+---+---+---+---+
+a        | 4 | 7 | 1 |   |   |   |   |   |
+         +---+---+---+---+---+---+---+---+
 
 n = 3
 ```
 
-El arreglo contiene ocho posiciones físicas, pero solamente tres posiciones forman parte del contenido lógico de la estructura.
+Hay ocho posiciones físicas disponibles, pero la secuencia contiene únicamente tres elementos. Esto nos obliga a distinguir **tamaño frente a capacidad**. El tamaño lógico es `n`; la capacidad física es `a.length`. La estructura puede tener capacidad disponible que todavía no corresponde a elementos del ADT.
 
-Los elementos válidos están en:
+Esta diferencia explica por qué `a[6]` puede ser una posición válida para la máquina virtual de Java y, sin embargo, no ser una posición válida de nuestra secuencia. Si el tamaño es tres, los elementos lógicos ocupan solamente `a[0]`, `a[1]` y `a[2]`. Una operación como `get(6)` no debería aceptarse simplemente porque el arreglo tenga una posición física con ese índice.
 
-```text
-a[0]
-a[1]
-a[2]
-```
-
-Las posiciones restantes existen, pero todavía no representan elementos de la secuencia.
-
-Esta diferencia conduce a dos conceptos fundamentales.
-
-#### Tamaño
-
-El **tamaño** indica cuántos elementos pertenecen actualmente a la estructura.
-
-```text
-tamaño = n
-```
-
-#### Capacidad
-
-La **capacidad** indica cuántas posiciones posee el arreglo de respaldo.
-
-```text
-capacidad = a.length
-```
-
-Para el estado anterior:
-
-```text
-tamaño = 3
-capacidad = 8
-```
-
-La capacidad puede ser mayor que el tamaño. Esa diferencia deja espacio disponible para inserciones futuras sin tener que construir un arreglo nuevo en cada operación.
-
-### 3. Invariantes y estados válidos
-
-Una implementación necesita reglas que permitan distinguir un estado válido de uno incorrecto.
-
-Para esta representación debe cumplirse:
+La representación, por tanto, no consiste solamente en declarar variables. También necesitamos especificar qué estados de esas variables consideraremos válidos. Para esta estructura esperamos que siempre se cumpla:
 
 ```text
 0 <= n <= a.length
 ```
 
-Además, los elementos que pertenecen a la estructura ocupan:
+y que los elementos que pertenecen a la secuencia se encuentren en:
 
 ```text
 a[0..n-1]
 ```
 
-Estas propiedades forman un **invariante de representación**.
+Estas propiedades constituyen un **invariante** de representación. El término es importante. No describe algo que suele ser cierto ni una condición conveniente para ciertos ejemplos. Describe una propiedad que debe conservarse siempre que la estructura se encuentre en un estado válido.
 
-Un **invariante** expresa una condición que debe conservarse mientras la estructura permanezca en un estado válido.
+Si `n = 4` y `a.length = 8`, la representación puede ser válida. Si `n = 9` y `a.length = 8`, no puede serlo: estaríamos afirmando que existen nueve elementos lógicos almacenados en ocho posiciones físicas. El **invariante** nos proporciona así una primera herramienta para razonar sobre correctitud.
 
-Por ejemplo:
+Esta perspectiva cambia la forma en que debemos leer una implementación. Una operación no es correcta sólo porque produzca el resultado esperado en uno o dos ejemplos. También debemos preguntar qué estado recibe, qué modifica y si después de ejecutarse continúan siendo ciertas las propiedades de representación.
+
+#### Comprueba tu comprensión 1
+
+Supón que:
 
 ```text
-n = 4
+n = 5
 a.length = 8
 ```
 
-es compatible con el invariante.
+1. ¿Qué posiciones pertenecen lógicamente a la estructura?
+2. ¿Sería válido ejecutar `get(6)` aunque `a[6]` exista físicamente?
+3. ¿Qué parte del **invariante** utilizarías para justificar tu respuesta?.
 
-En cambio:
+No continúes hasta poder responder las tres preguntas sin ejecutar código.
 
-```text
-n = 9
-a.length = 8
-```
-
-no es compatible con la representación, porque afirma que existen nueve elementos válidos dentro de un arreglo que solo dispone de ocho posiciones.
-
-Los invariantes permiten razonar sobre correctitud. Una operación no es correcta solamente porque produzca una salida esperada en un ejemplo, también debe dejar la estructura en un estado válido.
-
-### 4. Por qué el acceso por índice es O(1)
-
-Los arreglos permiten acceso directo por posición.
-
-Una operación como:
+Consideremos ahora `get(i)`. Una vez comprobado que `i` pertenece al rango lógico, la operación esencial es un acceso directo:
 
 ```java
-Integer get(int i) {
-    return a[i];
-}
+return a[i];
 ```
 
-no necesita recorrer las posiciones anteriores para obtener `a[i]`.
+No necesitamos recorrer `a[0]`, `a[1]`, ..., `a[i-1]` para llegar a `a[i]`. Bajo el modelo usual de acceso a arreglos, el trabajo fundamental no crece cuando aumenta el número de elementos. Esta observación introduce la diferencia entre **O(1) y O(n)**.
 
-La operación esencial es la misma si la estructura contiene diez elementos o un millón.
+Decir que `get(i)` es `O(1)` no significa que tarde exactamente una unidad de tiempo, que consuma una sola instrucción de máquina o que todas las computadoras lo ejecuten a la misma velocidad. Significa que, respecto del parámetro `n`, la cantidad esencial de trabajo no crece con el tamaño de la estructura.
 
-Por esa razón se describe como:
-
-```text
-get(i) -> O(1)
-```
-
-La notación `O(1)` expresa aquí que el trabajo fundamental no crece con el número de elementos `n`.
-
-Esto no significa que la operación tarde literalmente una unidad de tiempo. El tiempo real depende del computador y del entorno de ejecución. La notación asintótica se concentra en cómo crece el trabajo cuando crece la entrada.
-
-#### Un contraste con O(n)
-
-Considera una búsqueda secuencial:
+En cambio, supongamos que buscamos un valor sin disponer de información adicional:
 
 ```java
-int indexOf(Integer x) {
-    for (int i = 0; i < n; i++) {
-        if (a[i].equals(x)) {
-            return i;
-        }
+for (int i = 0; i < n; i++) {
+    if (a[i].equals(x)) {
+        return i;
     }
-    return -1;
 }
 ```
 
-Si `x` se encuentra al inicio, la búsqueda puede terminar pronto. Si está al final o no existe, puede ser necesario revisar todos los elementos.
+En el peor caso podemos necesitar examinar los `n` elementos. El trabajo crece aproximadamente en proporción al tamaño de la secuencia y describimos la operación como `O(n)`. La distinción entre **O(1) y O(n)** no debe memorizarse como una tabla: debe poder justificarse examinando qué trabajo obliga a realizar la representación.
 
-En el caso más exigente, el número de posiciones examinadas crece con `n`.
-
-Por ello:
-
-```text
-búsqueda secuencial -> O(n)
-```
-
-Para esta semana interesa reconocer principalmente la diferencia:
-
-```text
-O(1)
-el trabajo no crece con n
-
-O(n)
-el trabajo crece aproximadamente con n
-```
-
-### 5. El problema de una capacidad fija
-
-Un arreglo de Java tiene longitud fija.
-
-Si se crea:
-
-```java
-Integer[] a = new Integer[4];
-```
-
-ese arreglo tendrá longitud 4 durante toda su existencia.
-
-Supongamos ahora:
+La elección del arreglo nos proporciona acceso directo, pero también introduce una limitación: en Java, la longitud de un arreglo queda fijada cuando el arreglo es creado. Si tenemos:
 
 ```text
 a = [4, 7, 1, 9]
@@ -241,51 +97,13 @@ n = 4
 a.length = 4
 ```
 
-La estructura está llena.
+no existe una quinta posición donde almacenar otro elemento. Sin embargo, desde el punto de vista del ADT queremos que la secuencia pueda continuar creciendo.
 
-Queremos agregar:
+Aquí aparece el **arreglo dinámico**. El nombre puede resultar engañoso si se interpreta literalmente. El arreglo individual no cambia dinámicamente de longitud. Lo dinámico es la estructura que administra sucesivos arreglos de respaldo. Cuando la capacidad existente deja de ser suficiente, la implementación crea otro arreglo, conserva los elementos lógicos y cambia la referencia utilizada como almacenamiento.
 
-```text
-6
-```
+Esta transición se puede encapsular en **`resize()`**. Conceptualmente, la operación debe obtener un arreglo con capacidad apropiada, copiar los elementos existentes y hacer que `a` pase a referenciar el nuevo almacenamiento. Si antes teníamos cuatro elementos, después de **`resize()`** debemos seguir teniendo cuatro elementos. El tamaño lógico no ha cambiado; ha cambiado la capacidad disponible.
 
-No existe una quinta posición disponible dentro del mismo arreglo.
-
-Una estructura dinámica resuelve este problema sin cambiar la longitud del arreglo existente. En su lugar realiza tres pasos:
-
-```text
-1. crea un arreglo mayor
-2. copia los elementos válidos
-3. reemplaza la referencia al arreglo de respaldo
-```
-
-Por ejemplo:
-
-```text
-arreglo anterior
-
-[4][7][1][9]
-
-arreglo nuevo
-
-[4][7][1][9][ ][ ][ ][ ]
-```
-
-El arreglo anterior no se expandió. Se creó otro objeto con mayor capacidad.
-
-El término arreglo dinámico describe a la estructura que administra arreglos de respaldo, no a un arreglo individual cuya longitud cambia.
-
-### 6. resize() como operación de mantenimiento
-
-El crecimiento puede concentrarse en una operación auxiliar:
-
-```java
-private void resize()
-```
-
-Una implementación típica en Java crea un arreglo mayor, copia los elementos existentes y reemplaza la referencia anterior.
-
-Por ejemplo:
+Una posible implementación es:
 
 ```java
 private void resize() {
@@ -299,114 +117,34 @@ private void resize() {
 }
 ```
 
-La operación crea un arreglo `b`, copia los `n` elementos válidos y finalmente hace que `a` se refiera al nuevo arreglo.
+Este método merece ser leído como una transformación del estado, no como una receta de tres instrucciones. El nuevo arreglo `b` todavía no forma parte de la representación mientras `a` siga apuntando al arreglo anterior. El ciclo preserva los `n` elementos lógicos. La asignación `a = b` hace efectivo el cambio de almacenamiento. Durante todo el proceso `n` permanece inalterado porque **`resize()`** modifica capacidad, no tamaño.
 
-Observa que `resize()` modifica la capacidad, pero no modifica el tamaño lógico.
+También podemos analizar su costo. Copiar un elemento requiere trabajo constante bajo nuestro modelo, pero hay que copiar `n` elementos. Por eso **`resize()`** tiene costo `O(n)`. Una vez más, esta conclusión no procede simplemente de observar que existe un `for`; procede de identificar cuántas veces se ejecuta el trabajo relevante en función de `n`.
 
-Antes de una expansión podríamos tener:
+#### Comprueba tu comprensión 2
 
-```text
-n = 4
-a.length = 4
-```
-
-Después de `resize()`:
-
-```text
-n = 4
-a.length = 8
-```
-
-Siguen existiendo cuatro elementos lógicos. Lo que cambió fue la cantidad de espacio disponible.
-
-#### Costo de resize()
-
-El ciclo de copia ejecuta una asignación por cada elemento válido:
+Supón que `resize()` crea correctamente un nuevo arreglo `b`, copia los `n` elementos y termina sin ejecutar:
 
 ```java
-for (int i = 0; i < n; i++) {
-    b[i] = a[i];
-}
+a = b;
 ```
 
-Por tanto, el trabajo crece con `n`:
+1. ¿Seguiría siendo posible que `0 <= n <= a.length` fuese verdadero?
+2. ¿Sería correcto el método?
+3. ¿Qué resultado prometido por `resize()` no se habría producido?.
 
-```text
-resize() -> O(n)
-```
+La pregunta distingue dos ideas que conviene mantener separadas: conservar el **invariante** y cumplir el efecto específico de una operación.
 
-Este costo lineal no convierte automáticamente al arreglo dinámico en una estructura ineficiente. Para entender por qué, es necesario estudiar con qué frecuencia ocurre el redimensionamiento.
-
-### 7. Crecimiento geométrico
-
-Una política posible sería aumentar la capacidad en una sola posición cada vez que el arreglo se llena:
-
-```text
-1, 2, 3, 4, 5, 6, ...
-```
-
-El problema es que una secuencia grande de inserciones provocaría copias con demasiada frecuencia.
-
-Una estrategia más adecuada consiste en multiplicar la capacidad, por ejemplo por dos:
-
-```text
-1, 2, 4, 8, 16, 32, ...
-```
-
-Después de crecer de 8 a 16, la estructura dispone de varias posiciones libres antes de necesitar otro crecimiento.
-
-La idea importante no es únicamente reservar más memoria. El crecimiento geométrico separa las operaciones costosas de copia mediante muchas inserciones ordinarias.
-
-Esta política es la base del análisis amortizado del arreglo dinámico.
-
-### 8. add al final
-
-Para insertar al final necesitamos distinguir dos situaciones.
-
-#### Hay capacidad disponible
-
-Si:
-
-```text
-n < a.length
-```
-
-la primera posición libre es `a[n]`.
-
-La inserción puede realizarse con:
+Llegamos entonces a una situación interesante. Queremos que **`add` al final** sea una operación eficiente. Mientras exista capacidad, agregar un nuevo elemento parece trivial:
 
 ```java
 a[n] = x;
 n++;
 ```
 
-Por ejemplo:
+El valor se escribe en la primera posición que todavía no pertenece a la secuencia y después el tamaño aumenta en uno. Pero el orden de estas acciones importa. Antes de la inserción, `a[n]` representa precisamente la primera posición libre. Si modificáramos `n` antes de utilizarlo como índice, cambiaríamos el significado de la expresión y podríamos dejar un hueco dentro del rango lógico.
 
-```text
-antes
-
-a = [4, 7, 1, _, _, _, _, _]
-n = 3
-
-después de add(9)
-
-a = [4, 7, 1, 9, _, _, _, _]
-n = 4
-```
-
-La operación preserva el orden lógico y actualiza el tamaño.
-
-#### No hay capacidad disponible
-
-Si:
-
-```text
-n == a.length
-```
-
-se necesita crecer antes de escribir el nuevo elemento.
-
-Una posible implementación es:
+Además, esta escritura sólo es válida si existe capacidad. Una implementación de **`add` al final** debe por ello garantizar primero que `n + 1` pueda ser representado:
 
 ```java
 boolean add(Integer x) {
@@ -421,120 +159,151 @@ boolean add(Integer x) {
 }
 ```
 
-El orden de las acciones es importante.
+Aquí el **invariante** vuelve a convertirse en una herramienta de razonamiento. Si había capacidad antes de insertar, `n < a.length`; después de incrementar `n` una sola vez seguimos teniendo `n <= a.length`. Si no había capacidad, primero ejecutamos **`resize()`**, que conserva los elementos y crea espacio suficiente, y sólo entonces incorporamos el nuevo valor. No necesitamos confiar exclusivamente en la ejecución para argumentar que el estado resultante sigue siendo válido.
 
-Primero se garantiza que exista espacio, después se escribe el elemento, finalmente se actualiza el tamaño.
+Pero aparece otra pregunta. Si **`resize()`** cuesta `O(n)` y **`add` al final** puede llamar a **`resize()`**, ¿debemos concluir que insertar al final cuesta `O(n)`?
 
-Al terminar debe seguir cumpliéndose:
+Para una llamada individual, sí puede ocurrir. Una inserción que encuentra capacidad disponible realiza trabajo constante; una inserción que provoca una expansión puede copiar todos los elementos existentes. En el peor caso de una operación aislada, el costo puede ser lineal.
+
+Sin embargo, esa observación no describe lo que ocurre en una secuencia larga de inserciones. Aquí aparece la **idea de costo amortizado**.
+
+Supongamos que la capacidad crece de uno en uno:
 
 ```text
-0 <= n <= a.length
+1, 2, 3, 4, 5, 6, ...
 ```
 
-### 9. Costo amortizado de add
+Después de llenar una capacidad, prácticamente la siguiente inserción vuelve a obligar a crear y copiar un arreglo. A medida que la estructura crece, las copias se hacen cada vez mayores y ocurren con demasiada frecuencia.
 
-Una llamada particular a `add` puede ser barata o costosa.
+Comparemos esa política con crecimiento geométrico:
 
-Si existe capacidad disponible, la operación realiza esencialmente:
+```text
+1, 2, 4, 8, 16, 32, ...
+```
+
+Cuando la capacidad aumenta de ocho a dieciséis, no volvemos a copiar en la siguiente inserción. Disponemos de varias posiciones libres. Las operaciones costosas quedan separadas por un número creciente de inserciones ordinarias.
+
+La duplicación no es la única política posible. Un factor de crecimiento menor, por ejemplo 1.5, puede reducir la cantidad de memoria no utilizada, pero obliga a redimensionar con mayor frecuencia. Un factor mayor reduce la frecuencia de las copias, a cambio de reservar más espacio que quizá permanezca temporalmente sin usar. En esta semana utilizaremos duplicación porque hace especialmente clara la relación entre crecimiento geométrico y **idea de costo amortizado**. El factor de crecimiento es, por tanto, una decisión de diseño con un compromiso entre tiempo y espacio, no una constante universal.
+
+Las cantidades copiadas durante las expansiones siguen aproximadamente:
+
+```text
+1 + 2 + 4 + 8 + 16 + ...
+```
+
+Si realizamos `m` inserciones, el total de elementos copiados durante todas las expansiones permanece `O(m)`. A ese trabajo debemos añadir las propias `m` escrituras de los elementos, también lineales en conjunto. Así, una secuencia de `m` inserciones requiere `O(m)` trabajo total y, distribuido entre las `m` operaciones, obtenemos `O(1)` por operación.
+
+Ésta es la **idea de costo amortizado**: una operación individual puede ser ocasionalmente costosa aunque el costo garantizado por operación, considerado sobre una secuencia completa, permanezca constante. Por eso afirmamos que **`add` al final** tiene costo `O(1)` amortizado cuando el **arreglo dinámico** utiliza crecimiento geométrico.
+
+Amortizado no significa "promedio" en el sentido probabilístico. No estamos suponiendo que ciertas entradas sean más frecuentes que otras ni calculando una esperanza matemática sobre una distribución. Estamos obteniendo una garantía sobre el costo agregado de una secuencia de operaciones.
+
+###" Comprueba tu comprensión 3
+
+Una llamada concreta a `add(x)` puede ejecutar **`resize()`** y costar `O(n)`.
+
+1. ¿Por qué esto no contradice que **`add` al final** tenga costo `O(1)` amortizado?
+2. ¿Qué cambia si la capacidad crece `1, 2, 3, 4, ...` en lugar de `1, 2, 4, 8, ...`?
+3. ¿Por qué "amortizado" no significa "promedio probabilístico"?.
+
+Intenta responder sin repetir una definición. Relaciona frecuencia de redimensionamientos, trabajo acumulado y secuencia de operaciones.
+
+Este ejemplo permite volver al punto de partida. Una **estructura de datos** es una elección de **representación**. Esa representación determina qué estados son admisibles mediante un **invariante**, qué operaciones pueden implementarse fácilmente y qué costos aparecen. La distinción entre **ADT frente a implementación** permite separar el comportamiento que queremos ofrecer de la estrategia concreta utilizada para conseguirlo. La separación entre **tamaño frente a capacidad** surge de nuestra representación mediante un arreglo de respaldo y un tamaño lógico. La comparación entre **O(1) y O(n)** expresa cómo crece el trabajo de operaciones distintas. El **arreglo dinámico** resuelve la limitación física de una capacidad fija mediante **`resize()`**, y el crecimiento geométrico hace posible que **`add` al final** tenga un buen comportamiento a largo plazo, explicado por la **idea de costo amortizado**.
+
+La conexión más importante de esta semana puede expresarse así:
+
+```text
+problema
+   -> ADT
+   -> representación
+   -> invariante
+   -> operaciones
+   -> correctitud
+   -> costo
+```
+
+No se trata, por tanto, de aprender una implementación concreta de `ArrayStack`. El propósito es adquirir una forma de leer y diseñar estructuras de datos. Frente a cualquier estructura que aparezca durante el curso deberíamos poder preguntar qué comportamiento abstracto ofrece, cómo representa su estado, qué propiedades deben permanecer verdaderas, cómo una operación transforma ese estado y cuánto trabajo exige esa transformación.
+
+El laboratorio puede explorar operaciones adicionales, como inserción indexada, eliminación y búsqueda secuencial. Estas operaciones sirven para observar cómo la misma **representación** produce costos diferentes, pero no amplían el núcleo conceptual definido para esta lectura.
+
+#### Alcance de la Semana 1
+
+El núcleo de esta semana está formado por **qué es una estructura de datos**, **ADT frente a implementación**, **representación**, **tamaño frente a capacidad**, **invariante**, **O(1) y O(n)**, **arreglo dinámico**, **`resize()`**, **`add` al final** e **idea de costo amortizado**.
+
+Quedan deliberadamente como ampliación opcional la recursión, las ecuaciones de recurrencia, la prueba formal de correctitud, el análisis agregado formal, el método contable y el método potencial para amortización, así como aspectos de Java que no son necesarios para comprender el mecanismo central: genéricos Java complejos, `ArrayList` como solución, iteradores e interfaces completas de Java Collections. Tampoco forman parte del núcleo de esta semana sorting, búsqueda binaria ni memoria JVM en profundidad.
+
+Estos temas no se excluyen porque carezcan de importancia. Se posponen porque introducirlos ahora diluiría el objetivo principal: entender por primera vez la relación entre abstracción, representación, correctitud y complejidad a partir de una estructura suficientemente sencilla como para poder razonar sobre ella completamente.
+
+#### Preguntas tipo control
+
+Estas preguntas no introducen contenidos nuevos. Su objetivo es entrenar el formato de razonamiento que se utilizará en las evaluaciones escritas.
+
+#### 1. Invariante y estado válido
+
+Supón que una estructura tiene:
+
+```text
+a.length = 8
+n = 5
+```
+
+Después de ejecutar un método, el estado queda:
+
+```text
+a.length = 8
+n = 9
+```
+
+Responde:
+
+a. ¿Qué propiedad de la **representación** se ha violado?  
+b. Escribe el **invariante** correspondiente.  
+c. Explica por qué el programa podría compilar y, sin embargo, la estructura ser incorrecta.
+
+#### 2. Análisis de costo
+
+Considera:
 
 ```java
-a[n] = x;
-n++;
+for (int i = 0; i < n; i++) {
+    b[i] = a[i];
+}
 ```
 
-Este trabajo es constante.
+Justifica por qué el costo es `O(n)`.
 
-Si el arreglo está lleno, `add` llama a `resize()`, y esa operación copia `n` elementos.
+No se acepta como justificación únicamente "porque tiene un `for`". Tu explicación debe identificar:
 
-Entonces aparece una pregunta natural:
+- cuál es el parámetro que representa el tamaño del problema;
+- cuántas iteraciones se realizan en función de ese parámetro;
+- qué trabajo constante se realiza en cada iteración.
+
+#### 3. Traza de crecimiento
+
+Partiendo de:
 
 ```text
-si algunas inserciones cuestan O(n),
-por qué se afirma que insertar al final es O(1) amortizado
+n = 0
+capacidad = 1
 ```
 
-La respuesta depende de analizar una secuencia de operaciones, no una llamada aislada.
-
-Supongamos que las capacidades siguen:
+y duplicando la capacidad cuando sea necesario, traza:
 
 ```text
-1, 2, 4, 8, 16, ...
+add(4)
+add(7)
+add(1)
+add(9)
+add(6)
 ```
 
-Para llegar a una capacidad grande, las cantidades de elementos copiadas durante expansiones sucesivas siguen aproximadamente:
+Completa una tabla con:
 
 ```text
-1 + 2 + 4 + 8 + ...
+operación | contenido lógico | n | capacidad | ¿hubo resize?
 ```
 
-Esta suma crece en el mismo orden que la capacidad final.
+Finalmente responde:
 
-Si realizamos `m` inserciones, el trabajo total invertido en todas las expansiones es `O(m)`.
-
-El resto de las inserciones aporta trabajo constante por operación.
-
-Por tanto, el costo total de `m` inserciones es lineal:
-
-```text
-O(m)
-```
-
-Al distribuir ese costo entre las `m` operaciones obtenemos:
-
-```text
-O(m)/m = O(1)
-```
-
-Por eso se dice:
-
-```text
-add al final -> O(1) amortizado
-```
-
-#### Amortizado no significa promedio probabilístico
-
-El análisis amortizado no necesita suponer que ciertas entradas ocurren con determinada probabilidad.
-
-Se estudia una secuencia completa de operaciones y se reparte su costo total.
-
-Esto permite afirmar que una operación puede ser ocasionalmente costosa sin que el costo por operación de una secuencia larga deje de ser constante.
-
-### 10. Una misma representación favorece ciertas operaciones
-
-La representación basada en arreglos tiene una ventaja clara:
-
-```text
-get(i) -> O(1)
-```
-
-También permite agregar al final con:
-
-```text
-add(x) -> O(1) amortizado
-```
-
-Sin embargo, otras operaciones pueden requerir recorrer o desplazar elementos.
-
-Por eso, la eficiencia de una estructura debe evaluarse en relación con las operaciones que se desean realizar.
-
-Una representación puede ser excelente para una operación y menos adecuada para otra.
-
-Este principio será recurrente en el estudio de estructuras de datos.
-
-### 11. Síntesis
-
-- Un arreglo dinámico combina una interfaz de operaciones con una representación interna basada en un arreglo de longitud fija y un tamaño lógico separado.
-- La capacidad disponible evita crear un arreglo nuevo en cada inserción.
-- El invariante permite razonar sobre estados válidos.
-- El acceso por índice aprovecha la representación basada en arreglos y tiene costo `O(1)`.
-- El crecimiento requiere copiar elementos y una llamada a `resize()` cuesta `O(n)`.
-- La política de duplicación hace que las expansiones ocurran con poca frecuencia.
-- Al analizar una secuencia larga de inserciones, el costo total de las expansiones es lineal y `add` al final tiene costo `O(1)` amortizado.
-
-Estas ideas pueden resumirse así:
-
-```text
-- la representación condiciona las operaciones,
-- las operaciones deben preservar invariantes,
-- el costo depende del trabajo que exige cada operación.
-```
+a. ¿Qué inserciones ejecutaron **`resize()`**?  
+b. ¿Cuál puede ser el peor costo de una llamada individual a **`add` al final**?  
+c. ¿Por qué, a pesar de ello, hablamos de **idea de costo amortizado** `O(1)`?.
