@@ -12,7 +12,7 @@ Las evaluaciones se realizan en hoja y papel. El objetivo es comprobar que el es
 
 #### Convenciones del código
 
-- Se recomienda Java 21, también se admite Java 17 o posterior.
+- Se recomienda Java 21 o posterior. La compatibilidad mínima del código se valida con Java 17.
 - Cada archivo contiene una clase pública autocontenida.
 - Los comentarios están escritos en español.
 - Las cadenas de texto están escritas en español.
@@ -30,6 +30,18 @@ Ejemplo para compilar y ejecutar la práctica de BFS:
 javac semana11_grafos_bfs/Semana11_GrafoBFS1.java
 java -cp semana11_grafos_bfs Semana11_GrafoBFS1
 ```
+#### Validación del repositorio
+
+Todos los archivos Java pueden validarse de forma independiente desde Git Bash:
+
+```bash
+./scripts/validar_java.sh
+```
+
+La validación utiliza `javac --release 17`, compila cada archivo en un directorio temporal y no deja archivos `.class` dentro del repositorio.
+
+Los detalles de la validación, el alcance de las comprobaciones y los diagnósticos esperados del IDE se encuentran en [VALIDACION.md](VALIDACION.md).
+
 
 #### Contenido obligatorio y calendario 2026-2
 

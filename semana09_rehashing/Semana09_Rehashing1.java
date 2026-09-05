@@ -20,7 +20,7 @@ public class Semana09_Rehashing1 {
             t = allocateTable(1 << d);
         }
 
-        @SuppressWarnings({"unchecked", "rawtypes"})
+        @SuppressWarnings("unchecked")
         private List<T>[] allocateTable(int size) {
             List<T>[] table = new ArrayList[size];
             for (int i = 0; i < size; i++) table[i] = new ArrayList<>();

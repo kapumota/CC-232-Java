@@ -14,7 +14,7 @@ public class Semana08_Hashing1 {
         private final List<T>[] buckets;
         private int size;
 
-        @SuppressWarnings({"unchecked", "rawtypes"})
+        @SuppressWarnings("unchecked")
         ChainedHashSet(int capacity) {
             if (capacity <= 0) throw new IllegalArgumentException("La capacidad debe ser positiva");
             buckets = new ArrayList[capacity];
