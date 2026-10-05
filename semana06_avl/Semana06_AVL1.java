@@ -1,6 +1,6 @@
 /*
  * CC-232 - Semana 6, viernes: inserción y rebalanceo AVL.
- * Implementación docente. Los cuatro casos son LL, RR, LR y RL.
+ * Implementación. Los cuatro casos son LL, RR, LR y RL.
  */
 public class Semana06_AVL1 {
     static class AVL {
