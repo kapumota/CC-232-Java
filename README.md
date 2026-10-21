@@ -52,8 +52,8 @@ Los detalles de la validación, el alcance de las comprobaciones y los diagnóst
 | 3 | 14 y 18 de septiembre | Pilas, colas y deques | Práctica 1 |
 | 4 | 21 y 25 de septiembre | BST, búsqueda, inserción y recorridos | Control 2 |
 | 5 | 28 de septiembre y 2 de octubre | BST, eliminación y casos borde | Práctica 2 |
-| 6 | 5 y 9 de octubre | AVL, balance y rotaciones |     |
-| 7 | 12 y 16 de octubre | Heap y cola de prioridad |    |
+| 6 | 5 y 9 de octubre | AVL, balance y rotaciones |  Sin evaluación   |
+| 7 | 12 y 16 de octubre | Heap y cola de prioridad | Sin evaluación   |
 | Parcial | 19 al 24 de octubre | Contenidos de las semanas 1 a 7 | Examen parcial |
 | 8 | 26 y 30 de octubre | Hashing con encadenamiento | Sin evaluación |
 | 9 | 2 y 6 de noviembre | Factor de carga y rehashing | Práctica 3 |
