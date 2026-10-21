@@ -52,14 +52,14 @@ Los detalles de la validación, el alcance de las comprobaciones y los diagnóst
 | 3 | 14 y 18 de septiembre | Pilas, colas y deques | Práctica 1 |
 | 4 | 21 y 25 de septiembre | BST, búsqueda, inserción y recorridos | Control 2 |
 | 5 | 28 de septiembre y 2 de octubre | BST, eliminación y casos borde | Práctica 2 |
-| 6 | 5 y 9 de octubre | AVL, balance y rotaciones | Control 3 |
-| 7 | 12 y 16 de octubre | Heap y cola de prioridad | Práctica 3 |
+| 6 | 5 y 9 de octubre | AVL, balance y rotaciones |     |
+| 7 | 12 y 16 de octubre | Heap y cola de prioridad |    |
 | Parcial | 19 al 24 de octubre | Contenidos de las semanas 1 a 7 | Examen parcial |
 | 8 | 26 y 30 de octubre | Hashing con encadenamiento | Sin evaluación |
-| 9 | 2 y 6 de noviembre | Factor de carga y rehashing | Control 4 |
-| 10 | 9 y 13 de noviembre | Map y Set | Práctica 4 |
-| 11 | 16 y 20 de noviembre | Grafos, representación y BFS | Sin evaluación |
-| 12 | 23 y 27 de noviembre | Grafos, DFS y componentes conexas | Control 5 |
+| 9 | 2 y 6 de noviembre | Factor de carga y rehashing | Práctica 3 |
+| 10 | 9 y 13 de noviembre | Map y Set | Sin evaluación |
+| 11 | 16 y 20 de noviembre | Grafos, representación y BFS | Práctica 4 |
+| 12 | 23 y 27 de noviembre | Grafos, DFS y componentes conexas | Control 4 |
 | 13 | 30 de noviembre y 4 de diciembre | Selección e integración | Práctica 5 |
 | 14 | 7 y 11 de diciembre | Repaso integrador | Sin evaluación |
 
