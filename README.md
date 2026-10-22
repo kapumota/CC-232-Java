@@ -57,9 +57,9 @@ Los detalles de la validación, el alcance de las comprobaciones y los diagnóst
 | Parcial | 19 al 24 de octubre | Contenidos de las semanas 1 a 7 | Examen parcial |
 | 8 | 26 y 30 de octubre | Hashing con encadenamiento | Sin evaluación |
 | 9 | 2 y 6 de noviembre | Factor de carga y rehashing | Práctica 3 |
-| 10 | 9 y 13 de noviembre | Map y Set | Sin evaluación |
+| 10 | 9 y 13 de noviembre | Map y Set | Control 2 |
 | 11 | 16 y 20 de noviembre | Grafos, representación y BFS | Práctica 4 |
-| 12 | 23 y 27 de noviembre | Grafos, DFS y componentes conexas | Control 4 |
+| 12 | 23 y 27 de noviembre | Grafos, DFS y componentes conexas | Sin evaluación |
 | 13 | 30 de noviembre y 4 de diciembre | Selección e integración | Práctica 5 |
 | 14 | 7 y 11 de diciembre | Repaso integrador | Sin evaluación |
 
